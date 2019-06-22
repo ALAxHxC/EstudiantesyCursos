@@ -38,8 +38,8 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 | [CreateFile](createfile)| /file | POST    |
 | [AllFiles](allfiles) | /file | GET    |
 | [OneFile](onefile)| /file/:id | POST    |
-| [Actualizar archivo]()| /file/:id | POST    |
-| [Eliminar archivo]()| /file/:id | POST    |
+| [UpdateFile](updatefile)| /file/:id | PATCH    |
+| [Eliminar archivo]()| /file/:id | DELETE    |
 
 ### Createfile
 
@@ -73,11 +73,33 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 
 * GET `/file/HOJA DE VIDA 1.pdf`
 
-* Devuelve un objeto File y le agrega el campo url en su root para acceso publico, [File](https://cloud.google.com/nodejs/docs/reference/storage/1.3.x/File)
+* Devuelve el archivo, [File](https://cloud.google.com/nodejs/docs/reference/storage/1.3.x/File)
 ```
- "url": "https://firebasestorage.googleapis.com/v0/b/telemed-f679a.appspot.com/o/HOJA%20DE%20VIDA%201.pdf?alt=media&token=undefined"
- 
 
 ```
 
-###
+### UpdateFile
+
+* PATCH `/file/test.pdf`
+* new_name: nuevo nombre del archivo, debe tener la misma extension. 
+* Request
+```
+{
+"new_name":"HOJADEVIDA 1.pdf"
+}
+```
+* Response:
+```
+{
+    "id": "HOJADEVIDA 1.pdf",
+    "url": "https://firebasestorage.googleapis.com/v0/b/telemed-f679a.appspot.com/o/HOJADEVIDA%201.pdf?alt=media&token=undefined"
+}
+```
+
+
+#### Delete file
+
+* DELETE `/file/HOJADEVIDA 1.pdf`
+```
+{"delete":true,"data":{}}
+```

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { uploadFile, getFiles, getFileById } from "../controllers/files";
+import { uploadFile, getFiles, getFileById, updateFile, downloadFileRoute, deleteFile } from "../controllers/files";
 export class FileRoutes {
 
   public routes(app: any): void {
@@ -12,7 +12,11 @@ export class FileRoutes {
       })
 
     app.route('/file/:id').get((req: Request, res: Response) => {
-      getFileById(req.params.id, res)
+      downloadFileRoute(req.params.id, res)
+    }).patch((req: Request, res: Response) => {
+      updateFile(req, res)
+    }).delete((req: Request, res: Response) => {
+      deleteFile(req.params.id, res)
     })
   }
 }

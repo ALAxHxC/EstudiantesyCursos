@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { uploadFirebaseFile, createPublicFileURL, getAllFiles, getOneFile } from "./providers/google";
-import { uploadLocalFile, deleteLocal } from './providers/utils';
+import { uploadFirebaseFile, getAllFiles, getOneFile, changeName, donwloadFile, deleteName } from "./providers/google";
+import { uploadLocalFile, deleteLocal, getMime, getDataLocal } from './providers/utils';
 const Busboy: any = require('busboy');
 export const uploadFile = (req: any, res: Response) => {
   var busboy = new Busboy({ headers: req.headers });
@@ -42,6 +42,31 @@ export const getFileById = async (id: string, res: Response) => {
 
 
 }
-export const updateFile = (id: string, res: Response) => { }
-export const deleteFile = (id: string, res: Response) => { }
+export const updateFile = async (req: Request, res: Response) => {
+  try {
+    let file = await changeName(req.params.id, req.body.new_name);
+    res.status(200).json(file)
+  } catch (error) {
+    res.status(500).json({ error: error.message, stack: error.stack });
+  }
+
+}
+export const downloadFileRoute = async (id: string, res: Response) => {
+  await donwloadFile(id);
+  let mime = getMime(id);
+  let data = getDataLocal(id)
+  res.contentType(mime)
+  res.send(data)
+  deleteLocal(id)
+
+}
+export const deleteFile = (id: string, res: Response) => {
+  try {
+    let response = deleteName(id);
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ error: error.message, stack: error.stack });
+  }
+
+}
 

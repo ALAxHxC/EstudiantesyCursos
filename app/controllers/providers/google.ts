@@ -20,6 +20,30 @@ export const getOneFile = async (name: string) => {
   file.url = createPublicFileURL(file);
   return file;
 }
+export const changeName = async (id: string, new_name: string) => {
+  try {
+    await bucket.file(id).move(new_name)
+    let file = await bucket.file(new_name);
+    return { id: file.name, url: createPublicFileURL(file) };
+  } catch (error) {
+    throw (error)
+  }
+}
+export const donwloadFile = async (id: string) => {
+  try {
+    await bucket.file(id).download({ destination: `temp/${id}` });
+  } catch (error) {
+    throw (error)
+  }
+}
+export const deleteName = async (id: string) => {
+  try {
+    let data = await bucket.file(id).delete();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 export const uploadFirebaseFile = async (file: string, mime: string) => {
   let data = new Promise((resolve: Function, reject: Function) => {
     bucket.upload(`temp/${file}`, {

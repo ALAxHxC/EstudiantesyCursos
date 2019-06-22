@@ -1,4 +1,6 @@
 const fs: any = require('fs');
+const mime: any = require('mime');
+
 export const uploadLocalFile = async (file: any) => {
   let data = new Promise((resolve: Function, reject: Function) => {
     fs.open(`temp/${file.name}`, 'w', function (err: any, fd: any) {
@@ -20,4 +22,10 @@ export const uploadLocalFile = async (file: any) => {
 }
 export const deleteLocal = (file: string) => {
   fs.unlinkSync(`temp/${file}`)
+}
+export const getDataLocal = (file: string) => {
+  return fs.readFileSync(`temp/${file}`);
+}
+export const getMime = (file: string) => {
+  return mime.getType(`temp/${file}`)
 }
