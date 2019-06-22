@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { uploadFile, uploadFileMulter } from "../controllers/files";
-const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
+import { uploadFile } from "../controllers/files";
 export class FileRoutes {
 
   public routes(app: any): void {
