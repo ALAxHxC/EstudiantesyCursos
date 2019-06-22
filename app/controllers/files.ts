@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { uploadFirebaseFile, createPublicFileURL } from "./providers/google";
+import { uploadFirebaseFile, createPublicFileURL, getAllFiles, getOneFile } from "./providers/google";
 import { uploadLocalFile, deleteLocal } from './providers/utils';
 const Busboy: any = require('busboy');
 export const uploadFile = (req: any, res: Response) => {
@@ -10,21 +10,38 @@ export const uploadFile = (req: any, res: Response) => {
     uploadLocalFile(file).then(data => {
       uploadFirebaseFile(file.name, file.mimetype).then(data => {
         deleteLocal(file.name)
-        res.json(data)
+        res.status(201).json(data)
       }).catch(error => {
         console.log(error)
-        res.json(error)
+        res.status(400).json(error)
       })
     }).catch(error => {
       console.log(error)
-      res.json(error)
+      res.status(400).json(error)
     })
 
   });
   req.pipe(busboy);
 }
-export const getFiles = (res: Response) => { }
-export const getFileById = (id: string, res: Response) => { }
+export const getFiles = async (res: Response) => {
+  try {
+    let files = await getAllFiles();
+    res.status(200).json(files)
+  } catch (error) {
+    res.status(500).json({ error: error.message, stack: error.stack });
+  }
+
+}
+export const getFileById = async (id: string, res: Response) => {
+  try {
+    let file = await getOneFile(id);
+    res.status(200).json(file)
+  } catch (error) {
+    res.status(500).json({ error: error.message, stack: error.stack });
+  }
+
+
+}
 export const updateFile = (id: string, res: Response) => { }
 export const deleteFile = (id: string, res: Response) => { }
 

@@ -8,7 +8,18 @@ const storageGCP = new storage.Storage({
   keyFilename: credentials
 });
 const bucket = storageGCP.bucket(String(process.env.GCS_BUCKET));
-
+export const getAllFiles = async () => {
+  let [files] = await bucket.getFiles();
+  files = files.map(item => {
+    return { id: item.name, url: createPublicFileURL(item) }
+  })
+  return files;
+}
+export const getOneFile = async (name: string) => {
+  let file: Object = await bucket.file(name)
+  file.url = createPublicFileURL(file);
+  return file;
+}
 export const uploadFirebaseFile = async (file: string, mime: string) => {
   let data = new Promise((resolve: Function, reject: Function) => {
     bucket.upload(`temp/${file}`, {

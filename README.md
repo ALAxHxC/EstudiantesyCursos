@@ -35,9 +35,49 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 
 | SERVICE    | PATH    | METHOD | 
 | --------|---------|-------|
-| [Crear archivo]()| /file | POST    |
-| [Listar todos]() | /file | GET    |
-| [Archivo por Id]()| /file/:id | POST    |
+| [CreateFile](createfile)| /file | POST    |
+| [AllFiles](allfiles) | /file | GET    |
+| [OneFile](onefile)| /file/:id | POST    |
 | [Actualizar archivo]()| /file/:id | POST    |
 | [Eliminar archivo]()| /file/:id | POST    |
 
+### Createfile
+
+  * POST `/file`
+  * Enviando los datos en formulario recibe:
+    * input file: file (nombre del componente)
+    * Crea el archivo segun su nombre original
+    * devuelve el id y la url de acceso publica:
+
+```
+    {
+    "url": "https://firebasestorage.googleapis.com/v0/b/telemed-f679a.appspot.com/o/HOJA%20DE%20VIDA%201.pdf?alt=media&token=undefined",
+    "id": "HOJA%20DE%20VIDA%201.pdf"
+    }
+```
+
+#### Allfiles
+
+ * POST `/file`
+
+```
+[
+    {
+        "id": "HOJA DE VIDA 1.pdf",
+        "url": "https://firebasestorage.googleapis.com/v0/b/telemed-f679a.appspot.com/o/HOJA%20DE%20VIDA%201.pdf?alt=media&token=undefined"
+    }
+]
+```
+ 
+#### OneFile
+
+* GET `/file/HOJA DE VIDA 1.pdf`
+
+* Devuelve un objeto File y le agrega el campo url en su root para acceso publico, [File](https://cloud.google.com/nodejs/docs/reference/storage/1.3.x/File)
+```
+ "url": "https://firebasestorage.googleapis.com/v0/b/telemed-f679a.appspot.com/o/HOJA%20DE%20VIDA%201.pdf?alt=media&token=undefined"
+ 
+
+```
+
+###
