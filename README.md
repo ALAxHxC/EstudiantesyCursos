@@ -31,3 +31,13 @@ Se dispone de 3 días para su realización.
 
 Entrega
 Se tendrá que subir en un rama llamada "develop" el código desarrollado e instrucciones de montaje.
+
+
+| SERVICE    | PATH    | METHOD | 
+| --------|---------|-------|
+| [Crear archivo]()| /file | POST    |
+| [Listar todos]() | /file | GET    |
+| [Archivo por Id]()| /file/:id | POST    |
+| [Actualizar archivo]()| /file/:id | POST    |
+| [Eliminar archivo]()| /file/:id | POST    |
+
