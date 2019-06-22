@@ -14,7 +14,7 @@ const busboy: any = require('connect-busboy');
 const busboyBodyParser: any = require('busboy-body-parser');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://daniel:Jenizaro_123@cluster0-shard-00-00-4upxq.mongodb.net:27017,cluster0-shard-00-01-4upxq.mongodb.net:27017,cluster0-shard-00-02-4upxq.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority').then(
+mongoose.connect(String(process.env.MONGO)).then(
   () => { console.log("MongoDB Success") },
   err => { console.error.bind(console, "MongoDB Connection error") });
 
