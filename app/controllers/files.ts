@@ -59,7 +59,7 @@ const uploadFirebaseFile = async (file: string, mime: string) => {
       result_file.makePublic().then(data => {
         console.log('data lo ahce publico', data)
         console.log('uploadfile', createPublicFileURL(result_file));
-        resolve(createPublicFileURL(result_file));
+        resolve({ "url": createPublicFileURL(result_file), "id": result_file.id });
 
       }).catch(error => {
         reject(error)
