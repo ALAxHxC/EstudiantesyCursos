@@ -4,31 +4,26 @@
 import { Client } from '../../models/client';
 import { Token } from '../../models/token';
 import { User } from '../../models/user';
-
-var config = {
-  tokens: []
-};
-
-
+import { Entity } from '../../models/entity';
 /*
  * Methods used by all grant types.
  */
 
-var getAccessToken = function (token) {
+var getAccessToken = function (token: string) {
 
   return Token.findOne({
     accessToken: token
   });
 };
 
-var getClient = function (clientId, clientSecret) {
+var getClient = function (clientId: string, clientSecret: string) {
   return Client.findOne({
     clientId: clientId,
     clientSecret: clientSecret
   })
 };
 
-var saveToken = function (token, client, user) {
+var saveToken = function (token: any, client: any, user: any) {
 
   token.client = {
     id: client.clientId
@@ -38,10 +33,11 @@ var saveToken = function (token, client, user) {
     id: user.username || user.clientId
   };
 
-  var tokenInstance = new Token(token);
-
-  tokenInstance.save();
-
+  let entity = new Entity(Token)
+  entity.cleanCreate({
+    'client.id': client.clientId,
+    'user.id': user.username || user.clientId
+  }, token)
   return token;
 };
 
@@ -54,7 +50,7 @@ var getUser = function (username: string, password: string) {
 
   return User.findOne({
     username: username,
-    //: password
+    password: password
   });
 };
 
@@ -62,49 +58,13 @@ var getUser = function (username: string, password: string) {
  * Method used only by client_credentials grant type.
  */
 
-var getUserFromClient = function (client) {
+var getUserFromClient = function (client: any) {
 
-  return clientModel.findOne({
+  return Client.findOne({
     clientId: client.clientId,
     clientSecret: client.clientSecret,
     grants: 'client_credentials'
   });
-};
-
-/*
- * Methods used only by refresh_token grant type.
- */
-
-var getRefreshToken = function (refreshToken) {
-
-  var tokens = config.tokens.filter(function (savedToken) {
-
-    return savedToken.refreshToken === refreshToken;
-  });
-
-  if (!tokens.length) {
-    return;
-  }
-
-  var token = Object.assign({}, tokens[0]);
-  token.user.username = token.user.id;
-
-  return token;
-};
-
-var revokeToken = function (token) {
-
-  config.tokens = config.tokens.filter(function (savedToken) {
-
-    return savedToken.refreshToken !== token.refreshToken;
-  });
-
-  var revokedTokensFound = config.tokens.filter(function (savedToken) {
-
-    return savedToken.refreshToken === token.refreshToken;
-  });
-
-  return !revokedTokensFound.length;
 };
 
 /**
@@ -117,6 +77,4 @@ module.exports = {
   saveToken: saveToken,
   getUser: getUser,
   getUserFromClient: getUserFromClient,
-  getRefreshToken: getRefreshToken,
-  //revokeToken: revokeToken
 };

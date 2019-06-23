@@ -38,6 +38,14 @@ export class Entity {
       throw (error)
     }
   }
+  async cleanCreate(query: Object, data: Object) {
+    try {
+      await this.EntityModel.remove(query);
+      return await this.create(data);
+    } catch (error) {
+      throw (error)
+    }
+  }
   async create(data: Object) {
     try {
       let newObject = await this.EntityModel.create(data);

@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 app.use(busboyBodyParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-require('./controllers/security/auth');
 const routePrv = new Routes();
 routePrv.routes(app)
 const routesFiles = new FileRoutes();
