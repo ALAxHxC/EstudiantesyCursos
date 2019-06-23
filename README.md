@@ -1,37 +1,24 @@
 Welcome
-¡ Gracias por querer realizar nuestra prueba para poder optar al puesto de Node.JS Developer Junior ! En esta prueba queremos ver que tal se te da codear y si tu estilo coincide con el nuestro.
 
-Definición
-Realizar un API Rest para una web de subida y gestión de archivos. Entre los servicios que se tendrán que realizar están:
 
-Login
-Registro
-Olvide contraseña con envío de email.
-Subida de archivos
-Bajada de archivos
-Gestor de archivos donde puedes: Eliminar, cambiar nombre y obtener enlace de archivo.
-Especificaciones
-Para el almacenamiento de los archivos el uso de S3, te dejamos un info para nuestra Bucket:
-key: AKIAY74DF3JTP4IZTGFQ secret: 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 bucket: aluxion.bucket/tests
+### Run app
 
-Para base de datos:
-El sistema que mejor consideres para el tipo de estructura.
+* instalar dependencias `npm install`
+*  correr proyecto `npm start`
+### .env:
 
-Para autenticación:
-Un servicio de OAuth mediante Token.
-
-Se valorará el uso de las siguientes tecnologías:
-Typescript como sustituto de Javascript
-Nest.Js como framework.
-Basar la arquitectura en micro-servicios.
-Documentación de servicios con SWAGER.
-Uso de Docker.
-Tiempo
-Se dispone de 3 días para su realización.
-
-Entrega
-Se tendrá que subir en un rama llamada "develop" el código desarrollado e instrucciones de montaje.
-
+```
+BUCKET_NAME=bucket de AWS
+IAM_USER_KEY=IAM de AWS no funciono
+IAM_USER_SECRET=Secrete de AWS no funcion
+PROJECT_ID=projecto de google cloud/firebase
+CERT=credenciales firebase admin/googlecloud
+GCS_BUCKET=nombre del bucket de aws
+MONGO=url de conexion de mongo
+SENDGRID_API_KEY=key sendgrid para enviar correos
+SUBJECT=Asunto del correo de restaurar contraseña
+EMAIL_FROM=correo configurado en sendgrind
+```
 
 | SERVICE    | PATH    | METHOD | 
 | --------|---------|-------|
@@ -42,6 +29,7 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 | [Eliminar archivo](#delete-file)| /file/:id | DELETE    |
 | [Recover](#recover)|/user/recover/:email| GET    |
 | [Registro de usuario](#registro-de-usuario)| /user | POST    |
+| [Autenticacion](#autenticacion)| /oauth/token | POST    |
 
 ### Createfile
 

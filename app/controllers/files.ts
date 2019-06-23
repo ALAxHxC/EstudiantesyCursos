@@ -5,7 +5,6 @@ const Busboy: any = require('busboy');
 export const uploadFile = (req: any, res: Response) => {
   var busboy = new Busboy({ headers: req.headers });
   busboy.on('finish', function () {
-    console.log('Upload finished');
     const file = req.files.file;
     uploadLocalFile(file).then(data => {
       uploadFirebaseFile(file.name, file.mimetype).then(data => {
