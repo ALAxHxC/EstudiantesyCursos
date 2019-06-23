@@ -4,7 +4,9 @@ Welcome
 ### Run app
 
 * instalar dependencias `npm install`
-*  correr proyecto `npm start`
+* correr proyecto `npm start`
+* compilar projecto `npm run tsc`
+* correr en produccion `npm run prod`
 ### .env:
 
 ```
@@ -177,6 +179,8 @@ curl http://localhost:3000/oauth/token \
 ```
 
  * Una vez autenticado usar el token de respuesta como 
+ 
+ 
  ```
  {Authorization: Bearer accessToken}
  ```

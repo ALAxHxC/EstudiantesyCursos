@@ -20,7 +20,7 @@ export class UserController {
 
   public async recoverPassword(email: string, res: Response) {
     try {
-      let user = await entity.getOne({ username: email });
+      let user: any = await entity.getOne({ username: email });
       user.password = this.makeid(10);
       let mail = sendMessageForgetPassword(user);
       await entity.update({ _id: user._id }, { password: user.password });

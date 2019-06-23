@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request as Req, Response as Res, NextFunction as Next } from "express";
 const OAuth2Server = require('oauth2-server'),
   Request = OAuth2Server.Request,
   Response = OAuth2Server.Response;
@@ -17,7 +17,7 @@ export class SecurityRoutes {
     });
     this.app = app;
 
-    app.get('/test', this.authenticateRequest(app), function (req, res) {
+    app.get('/test', this.authenticateRequest(app), function (req: Req, res: Res) {
 
       res.send('Congratulations, you are in a secret area!');
     });
@@ -26,15 +26,14 @@ export class SecurityRoutes {
   }
 
   public authenticateRequest(app: any): Function {
-    return (req, res, next) => {
+    return (req: Req, res: Res, next: Next) => {
 
       var request = new Request(req);
       var response = new Response(res);
       return app.oauth.authenticate(request, response)
-        .then(function (token) {
-
+        .then(function (token: any) {
           next();
-        }).catch(function (err) {
+        }).catch(function (err: any) {
 
           res.status(err.code || 500).json(err);
         });
@@ -42,16 +41,16 @@ export class SecurityRoutes {
   }
 
   public obtainToken(app: any) {
-    return (req, res) => {
+    return (req: Req, res: Res) => {
 
       var request = new Request(req);
       var response = new Response(res);
 
       return app.oauth.token(request, response)
-        .then(function (token) {
+        .then(function (token: any) {
 
           res.json(token);
-        }).catch(function (err) {
+        }).catch(function (err: any) {
 
           res.status(err.code || 500).json(err);
         });

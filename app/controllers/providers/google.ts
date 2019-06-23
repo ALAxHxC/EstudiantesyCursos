@@ -9,14 +9,14 @@ const storageGCP = new storage.Storage({
 });
 const bucket = storageGCP.bucket(String(process.env.GCS_BUCKET));
 export const getAllFiles = async () => {
-  let [files] = await bucket.getFiles();
-  files = files.map(item => {
+  let [files]: any = await bucket.getFiles();
+  files = files.map((item: any) => {
     return { id: item.name, url: createPublicFileURL(item) }
   })
   return files;
 }
 export const getOneFile = async (name: string) => {
-  let file: Object = await bucket.file(name)
+  let file: any = await bucket.file(name)
   file.url = createPublicFileURL(file);
   return file;
 }
@@ -50,16 +50,16 @@ export const uploadFirebaseFile = async (file: string, mime: string) => {
       destination: file,
       public: true,
       metadata: { contentType: mime, cacheControl: "public, max-age=300" }
-    }, function (err, result_file) {
+    }, function (err: any, result_file: any) {
       if (err) {
         console.log(err);
         reject(err)
         return;
       }
       //console.log(result_file)
-      result_file.makePublic().then(data => {
+      result_file.makePublic().then((data: any) => {
         resolve({ "url": createPublicFileURL(result_file), "id": result_file.id });
-      }).catch(error => {
+      }).catch((error: any) => {
         reject(error)
       })
 
