@@ -11,20 +11,38 @@ const UserChema = new Schema({
 
 UserChema.pre('save', function (next) {
   let person: any = this;
-  if (!person.isModified('password')) {
-    return next();
-  }
-  person.password = cryptLib.encrypt('This is the text to be encrypted', ps, iv);
+  person.password = cryptLib.encrypt(person.password, ps, iv);
   next();
 
 });
+UserChema.pre('update', function (next) {
+  const update = this.getUpdate()
+  console.log('update', this.getUpdate())
+  if (!update.password) {
+    return next();
+  }
+  console.log('genero password');
+  this.getUpdate().password = cryptLib.encrypt(update.password, ps, iv);
+
+})
+UserChema.pre('updateOne', function (next) {
+  const update = this.getUpdate()
+  console.log('update', this.getUpdate())
+  if (!update.password) {
+    return next();
+  }
+  console.log('genero password');
+  this.getUpdate().password = cryptLib.encrypt(update.password, ps, iv);
+
+  next();
+})
 UserChema.pre('findOne', function (next: Function) {
   //console.log(this);
   let query = this;
   let queryOption = this.getQuery();
 
   if (queryOption.password == null) next();
-  queryOption.password = cryptLib.encrypt('This is the text to be encrypted', ps, iv);
+  queryOption.password = cryptLib.encrypt(queryOption.password, ps, iv);
   query.setQuery(queryOption)
   next();
 });

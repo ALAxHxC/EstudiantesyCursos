@@ -40,6 +40,7 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 | [OneFile](#onefile)| /file/:id | POST    |
 | [UpdateFile](#updatefile)| /file/:id | PATCH    |
 | [Eliminar archivo](#delete-file)| /file/:id | DELETE    |
+| [Recover](#recover)|/user/recover/:email| GET    |
 | [Registro de usuario](#registro-de-usuario)| /user | POST    |
 
 ### Createfile
@@ -127,6 +128,24 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
     "__v": 0
 }
 ```
+#### Recover password
+
+* GET `/user/recover/:email`
+* Response: revisa tu spam de emails, con el remitente daniel72584@gmail.com, en el correo estara la contraseña. 
+```
+{
+    "user": {
+        "_id": "5d0f5bdb977b835b328efa4e",
+        "username": "daniel72584@gmail.com",
+        "createdAt": "2019-06-23T11:00:43.093Z",
+        "updatedAt": "2019-06-23T13:25:01.595Z",
+        "__v": 0,
+        "password": "TamNvR8cCp"
+    },
+    "mail": {}
+}
+```
+
 #### Autenticacion
 * POST `/oauth/token`
 * Headers:

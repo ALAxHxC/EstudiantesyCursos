@@ -1,16 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import { UserController } from "../controllers/user";
 let contactController: UserController = new UserController();
 export class Routes {
 
   public routes(app: any): void {
-    app.route('/')
-      .get((req: Request, res: Response) => {
-        res.status(200).send({
-          message: 'GET request successfulll!!!!'
-        })
-      })
-
     // Contact 
     app.route('/user')
       // GET endpoint 
@@ -23,6 +16,9 @@ export class Routes {
         // Create new contact         
         contactController.addNewContact(req, res)
       })
+    app.route('/user/recover/:email').get((req: Request, res: Response) => {
+      contactController.recoverPassword(req.params.email, res);
+    })
 
     // Contact detail
     app.route('/user/:contactId')

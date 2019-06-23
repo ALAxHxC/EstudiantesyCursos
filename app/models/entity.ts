@@ -22,10 +22,10 @@ export class Entity {
       throw (error)
     }
   }
-  async getOne(data: Object) {
+  async getOne(data: any) {
     try {
-      let all = await this.EntityModel.findOne(data)
-      return all;
+      let all = await this.EntityModel.find(data).limit(1)
+      return all[0];
     } catch (error) {
       throw (error)
     }
@@ -56,7 +56,8 @@ export class Entity {
   }
   async update(query: Object, data: Object) {
     try {
-      let newObject = await this.EntityModel.findOneAndUpdate(query, data, { new: true });
+      console.log(query, data)
+      let newObject = await this.EntityModel.updateOne(query, data);
       return newObject;
     } catch (error) {
       throw (error)
