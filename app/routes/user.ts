@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ContactController } from "../controllers/crm";
-let contactController: ContactController = new ContactController();
+import { UserController } from "../controllers/user";
+let contactController: UserController = new UserController();
 export class Routes {
 
   public routes(app: any): void {
@@ -12,7 +12,7 @@ export class Routes {
       })
 
     // Contact 
-    app.route('/contact')
+    app.route('/user')
       // GET endpoint 
       .get((req: Request, res: Response) => {
         // Get all contacts            
@@ -25,7 +25,7 @@ export class Routes {
       })
 
     // Contact detail
-    app.route('/contact/:contactId')
+    app.route('/user/:contactId')
       // get specific contact
       .get((req: Request, res: Response) => {
         // Get a single contact detail            

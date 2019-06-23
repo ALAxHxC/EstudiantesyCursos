@@ -1,11 +1,11 @@
 import * as mongoose from 'mongoose';
-import { User } from '../models/user';
+import { Client } from '../models/client';
 import { Request, Response } from 'express';
 import { Entity } from '../models/entity';
 
 //const Contact = mongoose.model('Contact', ContactSchema);
-let entity = new Entity(User);
-export class UserController {
+let entity = new Entity(Client);
+export class ClientController {
   public async addNewContact(req: Request, res: Response) {
     console.log('recibedata')
     try {

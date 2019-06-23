@@ -103,3 +103,35 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 ```
 {"delete":true,"data":{}}
 ```
+
+
+####  Usuario
+```
+{
+"name":"test",
+"last":"secret",
+"email":"daniel72584@gmail.com",
+"password":"123456"
+}
+```
+
+```
+{
+    "_id": "5d0efc13aef05e210784f89f",
+    "name": "test",
+    "last": "secret",
+    "email": "daniel72584@gmail.com",
+    "password": "$2a$10$K39Q22U.gXWfnsOE8R6KGurE9yGD7skBX7Adn174Q.iA1DoxpDBNe",
+    "createdAt": "2019-06-23T04:12:03.267Z",
+    "updatedAt": "2019-06-23T04:12:03.267Z",
+    "__v": 0
+}
+```
+#### Cliente
+```
+{
+"name":"test",
+"clientId":"secret",
+"clientSecret":"daniel72584@gmail.com"
+}
+```
