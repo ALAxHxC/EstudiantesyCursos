@@ -1,45 +1,14 @@
 /**
  * Configuration.
  */
+import { Client } from '../../models/client';
+import { Token } from '../../models/token';
+import { User } from '../../models/user';
 
 var config = {
-  clients: [{
-    id: 'application',	// TODO: Needed by refresh_token grant, because there is a bug at line 103 in https://github.com/oauthjs/node-oauth2-server/blob/v3.0.1/lib/grant-types/refresh-token-grant-type.js (used client.id instead of client.clientId)
-    clientId: 'application',
-    clientSecret: 'secret',
-    grants: [
-      'password',
-      'refresh_token'
-    ],
-    redirectUris: []
-  }],
-  confidentialClients: [{
-    clientId: 'confidentialApplication',
-    clientSecret: 'topSecret',
-    grants: [
-      'password',
-      'client_credentials'
-    ],
-    redirectUris: []
-  }],
-  tokens: [],
-  users: [{
-    username: 'pedroetb',
-    password: 'password'
-  }]
+  tokens: []
 };
 
-/**
- * Dump the memory storage content (for debug).
- */
-
-var dump = function () {
-
-  console.log('clients', config.clients);
-  console.log('confidentialClients', config.confidentialClients);
-  console.log('tokens', config.tokens);
-  console.log('users', config.users);
-};
 
 /*
  * Methods used by all grant types.
@@ -47,27 +16,16 @@ var dump = function () {
 
 var getAccessToken = function (token) {
 
-  var tokens = config.tokens.filter(function (savedToken) {
-
-    return savedToken.accessToken === token;
+  return Token.findOne({
+    accessToken: token
   });
-
-  return tokens[0];
 };
 
 var getClient = function (clientId, clientSecret) {
-
-  var clients = config.clients.filter(function (client) {
-
-    return client.clientId === clientId && client.clientSecret === clientSecret;
-  });
-
-  var confidentialClients = config.confidentialClients.filter(function (client) {
-
-    return client.clientId === clientId && client.clientSecret === clientSecret;
-  });
-
-  return clients[0] || confidentialClients[0];
+  return Client.findOne({
+    clientId: clientId,
+    clientSecret: clientSecret
+  })
 };
 
 var saveToken = function (token, client, user) {
@@ -80,7 +38,9 @@ var saveToken = function (token, client, user) {
     id: user.username || user.clientId
   };
 
-  config.tokens.push(token);
+  var tokenInstance = new Token(token);
+
+  tokenInstance.save();
 
   return token;
 };
@@ -89,14 +49,13 @@ var saveToken = function (token, client, user) {
  * Method used only by password grant type.
  */
 
-var getUser = function (username, password) {
+var getUser = function (username: string, password: string) {
+  console.log(username, password)
 
-  var users = config.users.filter(function (user) {
-
-    return user.username === username && user.password === password;
+  return User.findOne({
+    username: username,
+    //: password
   });
-
-  return users[0];
 };
 
 /*
@@ -105,12 +64,11 @@ var getUser = function (username, password) {
 
 var getUserFromClient = function (client) {
 
-  var clients = config.confidentialClients.filter(function (savedClient) {
-
-    return savedClient.clientId === client.clientId && savedClient.clientSecret === client.clientSecret;
+  return clientModel.findOne({
+    clientId: client.clientId,
+    clientSecret: client.clientSecret,
+    grants: 'client_credentials'
   });
-
-  return clients[0];
 };
 
 /*
@@ -160,5 +118,5 @@ module.exports = {
   getUser: getUser,
   getUserFromClient: getUserFromClient,
   getRefreshToken: getRefreshToken,
-  revokeToken: revokeToken
+  //revokeToken: revokeToken
 };

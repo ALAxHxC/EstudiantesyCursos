@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const Model = new Schema({
-  userId: { type: String, required: true },
-  clientId: { type: String, required: true },
-  token: { type: String, required: true },
+  user: Schema.Types.Mixed,
+  client: Schema.Types.Mixed,
+  accessTokenExpiresAt: { type: Date },
+  refreshTokenExpiresAt: { type: Date },
+  refreshToken: { type: String },
+  accessToken: { type: String }
 }, { timestamps: true });
 
 
