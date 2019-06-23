@@ -5,32 +5,22 @@ export class ClientRoutes {
 
   public routes(app: any, auth: Function): void {
 
-    // Contact 
     app.route('/client')
-      // GET endpoint 
-      .get((req: Request, res: Response) => {
-        // Get all contacts            
+      .get(auth, (req: Request, res: Response) => {
         contactController.getAllContacts(req, res);
       })
-      // POST endpoint
-      .post((req: Request, res: Response) => {
-        // Create new contact         
+      .post(auth, (req: Request, res: Response) => {
         contactController.addNewContact(req, res)
       })
 
-    // Contact detail
-    app.route('/client/:contactId')
-      // get specific contact
+    app.route(auth, '/client/:contactId')
       .get((req: Request, res: Response) => {
-        // Get a single contact detail            
         contactController.getByIdContact(req, res);
       })
-      .put((req: Request, res: Response) => {
-        // Update a contact           
+      .put(auth, (req: Request, res: Response) => {
         contactController.updateDocument(req, res)
       })
-      .delete((req: Request, res: Response) => {
-        // Delete a contact     
+      .delete(auth, (req: Request, res: Response) => {
         contactController.deleteDocument(req, res);
       })
   }
