@@ -30,12 +30,12 @@ export class UserController {
     }
   }
   public async addNewContact(req: Request, res: Response) {
-    console.log('recibedata')
     try {
       let newContact = await entity.create(req.body);
       res.status(200).json(newContact);
     } catch (error) {
-      res.status(400).json({ error: error.message })
+      console.log(error.stack)
+      res.status(400).json({ error: error.message, stack: error.stack })
     }
   }
   public async getAllContacts(req: Request, res: Response) {

@@ -24,12 +24,13 @@ app.use(busboyBodyParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 const security = new SecurityRoutes()
 security.routes(app)
+let auth = security.authenticateRequest(app);
 const routePrv = new Routes();
-routePrv.routes(app)
+routePrv.routes(app, auth)
 const routesFiles = new FileRoutes();
-routesFiles.routes(app);
+routesFiles.routes(app, auth);
 const routesClient = new ClientRoutes();
-routesClient.routes(app);
+routesClient.routes(app, auth);
 
 
 

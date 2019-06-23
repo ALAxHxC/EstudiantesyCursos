@@ -2,20 +2,20 @@ import { Request, Response } from "express";
 import { uploadFile, getFiles, getFileById, updateFile, downloadFileRoute, deleteFile } from "../controllers/files";
 export class FileRoutes {
 
-  public routes(app: any): void {
+  public routes(app: any, auth: Function): void {
     app.route('/file')
-      .post((req: Request, res: Response) => {
+      .post(auth, (req: Request, res: Response) => {
         uploadFile(req, res)
       })
-      .get((req: Request, res: Response) => {
+      .get(auth, (req: Request, res: Response) => {
         getFiles(res)
       })
 
-    app.route('/file/:id').get((req: Request, res: Response) => {
+    app.route('/file/:id').get(auth, (req: Request, res: Response) => {
       downloadFileRoute(req.params.id, res)
-    }).patch((req: Request, res: Response) => {
+    }).patch(auth, (req: Request, res: Response) => {
       updateFile(req, res)
-    }).delete((req: Request, res: Response) => {
+    }).delete(auth, (req: Request, res: Response) => {
       deleteFile(req.params.id, res)
     })
   }

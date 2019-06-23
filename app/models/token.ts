@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose';
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const Model = new Schema({
   user: Schema.Types.Mixed,
@@ -6,20 +6,21 @@ const Model = new Schema({
   accessTokenExpiresAt: { type: Date },
   refreshTokenExpiresAt: { type: Date },
   refreshToken: { type: String },
-  accessToken: { type: String }
+  accessToken: { type: String, unique: true }
 }, { timestamps: true });
-
-export const Token = mongoose.model('token', Model);
 
 
 Model.pre('save', function (next: Function) {
   let data: any = this;
   Token.remove({
-    'user.id': data.user.id,
-    'client.id': data.client.id
+    accessToken: data.accessToken
   }).then(data => {
-    console.log('elimino', data)
     next()
-  }).catch(error => { next() })
+  }).catch(error => {
+    next()
+  })
 })
+export const Token = mongoose.model('token', Model);
+
+
 

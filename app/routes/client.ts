@@ -3,13 +3,7 @@ import { ClientController } from "../controllers/client";
 let contactController: ClientController = new ClientController();
 export class ClientRoutes {
 
-  public routes(app: any): void {
-    app.route('/')
-      .get((req: Request, res: Response) => {
-        res.status(200).send({
-          message: 'GET request successfulll!!!!'
-        })
-      })
+  public routes(app: any, auth: Function): void {
 
     // Contact 
     app.route('/client')

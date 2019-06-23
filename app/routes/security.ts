@@ -25,12 +25,11 @@ export class SecurityRoutes {
 
   }
 
-  public authenticateRequest(app: any) {
+  public authenticateRequest(app: any): Function {
     return (req, res, next) => {
 
       var request = new Request(req);
       var response = new Response(res);
-      console.log(req.body)
       return app.oauth.authenticate(request, response)
         .then(function (token) {
 

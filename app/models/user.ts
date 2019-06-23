@@ -5,8 +5,8 @@ const ps = process.env.SECRET || String("e4b749e81288302501f897996a364797");
 const iv = process.env.IVI || "ed82a7c7b7a202dc";
 
 const UserChema = new Schema({
-  username: { type: String, unique: true, lowercase: true, required: 'EmailInvalid' },
-  password: { type: String, select: false, required: 'PasswordInvalid' }
+  username: { type: String, require: true, index: true, unique: true, sparse: true },
+  password: { type: String }
 }, { timestamps: true });
 
 UserChema.pre('save', function (next) {
@@ -17,23 +17,18 @@ UserChema.pre('save', function (next) {
 });
 UserChema.pre('update', function (next) {
   const update = this.getUpdate()
-  console.log('update', this.getUpdate())
   if (!update.password) {
     return next();
   }
-  console.log('genero password');
   this.getUpdate().password = cryptLib.encrypt(update.password, ps, iv);
 
 })
 UserChema.pre('updateOne', function (next) {
   const update = this.getUpdate()
-  console.log('update', this.getUpdate())
   if (!update.password) {
     return next();
   }
-  console.log('genero password');
   this.getUpdate().password = cryptLib.encrypt(update.password, ps, iv);
-
   next();
 })
 UserChema.pre('findOne', function (next: Function) {
