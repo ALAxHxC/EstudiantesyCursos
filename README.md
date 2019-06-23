@@ -35,11 +35,12 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 
 | SERVICE    | PATH    | METHOD | 
 | --------|---------|-------|
-| [CreateFile](createfile)| /file | POST    |
-| [AllFiles](allfiles) | /file | GET    |
-| [OneFile](onefile)| /file/:id | POST    |
-| [UpdateFile](updatefile)| /file/:id | PATCH    |
-| [Eliminar archivo]()| /file/:id | DELETE    |
+| [CreateFile](#createfile)| /file | POST    |
+| [AllFiles](#allfiles) | /file | GET    |
+| [OneFile](#onefile)| /file/:id | POST    |
+| [UpdateFile](#updatefile)| /file/:id | PATCH    |
+| [Eliminar archivo](#delete-file)| /file/:id | DELETE    |
+| [Registro de usuario](#registro-de-usuario)| /user | POST    |
 
 ### Createfile
 
@@ -105,7 +106,9 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 ```
 
 
-####  Usuario
+
+####  Registro de Usuario
+* Request
 ```
 {
 "username":"daniel72584@gmail.com",
@@ -113,7 +116,7 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
 	
 }
 ```
-
+* Response
 ```
 {
     "_id": "5d0f5bdb977b835b328efa4e",
@@ -124,11 +127,49 @@ Se tendrá que subir en un rama llamada "develop" el código desarrollado e inst
     "__v": 0
 }
 ```
-#### Cliente
+#### Autenticacion
+* POST `/oauth/token`
+* Headers:
+  * Authorization `Basic base64(client:secret)`
+  * Example
 ```
 {
-"name":"test",
-"clientId":"secret",
-"clientSecret":"daniel72584@gmail.com"
+    "client":"confidentialApplication"
+    "clientSecret":"topSecret"
 }
 ```
+* Headers
+```
+{Authorization:Basic Y29uZmlkZW50aWFsQXBwbGljYXRpb246dG9wU2VjcmV0,Content-Type:application/x-www-form-urlencoded}
+```
+* Request
+```
+curl http://localhost:3000/oauth/token \
+        -d "grant_type=password" \
+        -d "username=daniel72584@gmail.com" \
+        -d "password=12345" \
+        -H "Authorization: Basic Y29uZmlkZW50aWFsQXBwbGljYXRpb246dG9wU2VjcmV0" \
+        -H "Content-Type: application/x-www-form-urlencoded"
+
+```
+
+* Response
+```
+{
+    "accessToken": "f7dd7efbfde399e5d5a7328bd295fc9bd98958a1",
+    "accessTokenExpiresAt": "2019-06-23T12:18:56.445Z",
+    "refreshToken": "746b18145890f9595bad4717f24f4e7f74f4cd81",
+    "refreshTokenExpiresAt": "2019-07-07T11:18:56.446Z",
+    "client": {
+        "id": "confidentialApplication"
+    },
+    "user": {
+        "id": "daniel72584@gmail.com"
+    }
+}
+```
+
+ * Una vez autenticado usar el token de respuesta como 
+ ```
+ {Authorization: Bearer accessToken}
+ ```
