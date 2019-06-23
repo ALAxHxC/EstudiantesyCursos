@@ -1,7 +1,9 @@
 
 
-import env from 'dotenv';
-env.config();
+if (!Boolean(process.env.LOAD)) {
+  const env: any = require('dotenv');
+  env.config();
+}
 import express = require('express');
 import mongoose from "mongoose";
 import * as bodyParser from "body-parser";
