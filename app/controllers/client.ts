@@ -1,34 +1,11 @@
 import * as mongoose from 'mongoose';
-import { User } from '../models/user';
+import { Client } from '../models/client';
 import { Request, Response } from 'express';
 import { Entity } from '../models/entity';
-import { sendMessageForgetPassword } from './providers/sendgrid';
 
 //const Contact = mongoose.model('Contact', ContactSchema);
-let entity = new Entity(User);
-export class UserController {
-  private makeid(length: number) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-
-
-  public async recoverPassword(email: string, res: Response) {
-    try {
-      let user = await entity.getOne({ username: email });
-      user.password = this.makeid(10);
-      let mail = sendMessageForgetPassword(user);
-      await entity.update({ _id: user._id }, { password: user.password });
-      res.status(200).json({ user: user, mail: mail });
-    } catch (error) {
-      res.status(400).json({ error: error.message })
-    }
-  }
+let entity = new Entity(Client);
+export class ClientController {
   public async addNewContact(req: Request, res: Response) {
     console.log('recibedata')
     try {

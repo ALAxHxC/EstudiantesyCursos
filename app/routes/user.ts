@@ -1,18 +1,11 @@
-import { Request, Response } from "express";
-import { ContactController } from "../controllers/crm";
-let contactController: ContactController = new ContactController();
+import { Request, Response, response } from "express";
+import { UserController } from "../controllers/user";
+let contactController: UserController = new UserController();
 export class Routes {
 
   public routes(app: any): void {
-    app.route('/')
-      .get((req: Request, res: Response) => {
-        res.status(200).send({
-          message: 'GET request successfulll!!!!'
-        })
-      })
-
     // Contact 
-    app.route('/contact')
+    app.route('/user')
       // GET endpoint 
       .get((req: Request, res: Response) => {
         // Get all contacts            
@@ -23,9 +16,12 @@ export class Routes {
         // Create new contact         
         contactController.addNewContact(req, res)
       })
+    app.route('/user/recover/:email').get((req: Request, res: Response) => {
+      contactController.recoverPassword(req.params.email, res);
+    })
 
     // Contact detail
-    app.route('/contact/:contactId')
+    app.route('/user/:contactId')
       // get specific contact
       .get((req: Request, res: Response) => {
         // Get a single contact detail            
