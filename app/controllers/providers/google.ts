@@ -75,3 +75,7 @@ export const createPublicFileURL = (new_file: any) => {
     + new_file.metadata.firebaseStorageDownloadTokens;
   return img_url;
 }
+
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+import * as fs from 'fs';
+import * as readline from 'readline';
